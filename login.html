@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In to Bio Care</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon" />
+</head>
+<body>
+    <div class="content">
+        <div class="left">
+            <h1>Don't Have an Account?</h1>
+            <a href="signup.html"><button>Sign Up</button></a>
+        </div>
+        <div class="right">
+            <h1>Log In</h1>
+            <form action="http://localhost:5000/login" method="POST">
+                <div class="inputfield">
+                    <input type="text" name="username" required>
+                    <span>Username</span>
+                </div>
+                <div class="inputfield">
+                    <input type="password" name="password" required>
+                    <span>Password</span>
+                </div>
+                <button type="submit">Log In</button>
+            </form>            
+        </div>
+    </div>
+</body>
+</html>
