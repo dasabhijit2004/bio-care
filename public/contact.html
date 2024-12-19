@@ -133,7 +133,7 @@
           const email = document.getElementById("queryMail").value; // Email is captured here
 
           try {
-            const response = await fetch("/query", {
+            const response = await fetch("https://bio-care.onrender.com/query", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ name, email, query }), // Email is sent to the backend here
@@ -159,7 +159,7 @@
           const email = document.getElementById("feedbackMail").value; // Add this if not present
 
           try {
-            const response = await fetch("/feedback", {
+            const response = await fetch("https://bio-care.onrender.com/feedback", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ name, email, feedback }), // Email is sent to the backend here

@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 const nodemailer = require("nodemailer");
 const xlsx = require("xlsx"); // For handling Excel files
 const fs = require("fs");
+const cors = require("cors");
+
 
 // Load environment variables
 dotenv.config();
@@ -15,6 +17,7 @@ const EMAIL_USER = process.env.EMAIL_USER;
 const EMAIL_PASS = process.env.EMAIL_PASS;
 
 // Middleware
+app.use(cors());
 app.use(express.json()); // For JSON requests
 app.use(express.urlencoded({ extended: true })); // For form data
 app.use(express.static("public")); // Serve static files
