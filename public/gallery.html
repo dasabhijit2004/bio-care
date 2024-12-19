@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery - Bio Care</title>
+    <link rel="stylesheet" href="gallery.css" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <script
+      src="https://kit.fontawesome.com/d8373423c5.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- Overlay for login/signup prompt -->
+    <div id="overlay" class="overlay">
+      <div class="overlay-content">
+        <h2>Please log in or sign up to view gallery</h2>
+        <a href="login.html"><button>Log In</button></a>
+        <a href="signup.html"><button>Sign Up</button></a>
+      </div>
+    </div>
+    <nav>
+      <a href="#" aria-label="Home">
+        <img src="images/logo.png" class="logo" alt="Bio Care Logo" />
+      </a>
+      <ul>
+        <div class="links">
+          <a href="index.html"><li>Home</li></a>
+          <a href="about.html"><li>About</li></a>
+          <a href="course.html"><li>Courses</li></a>
+          <a href="gallery.html"><li>Gallery</li></a>
+          <a href="events.html"><li>Events</li></a>
+          <a href="contact.html"><li>Contact Us</li></a>
+        </div>
+        <div class="btn">
+          <a href="signup.html"
+            ><button id="signupButton" aria-label="Sign Up">Sign Up</button></a
+          >
+          <a href="login.html"
+            ><button id="loginButton" aria-label="Log In">Log In</button></a
+          >
+        </div>
+      </ul>
+      <button class="toggle"><i class="fa-solid fa-bars"></i></button>
+    </nav>
+
+    <div class="gallery">
+      <h1>Glimpse of Journey</h1>
+      <div class="images">
+        <img src="galleryimg/image2.png">
+        <img src="galleryimg/image1.png">
+        <img src="galleryimg/image3.png">
+        <img src="galleryimg/image4.png">
+        <img src="galleryimg/image5.png">
+        <img src="galleryimg/image6.png">
+        <img src="galleryimg/image7.png">
+        <img src="galleryimg/image8.jpg">
+        <img src="galleryimg/image9.jpg">
+        <img src="galleryimg/image10.jpg">
+        <img src="galleryimg/image11.jpg">
+        <img src="galleryimg/image12.jpg">
+        <img src="galleryimg/image13.jpg">
+        <img src="galleryimg/image14.jpg">
+        <img src="galleryimg/image15.jpg">
+        <img src="galleryimg/image16.jpg">
+      </div>
+    </div>
+
+    <div class="contact">
+      <div class="left">
+        <img src="images/logo.png" alt="Bio Care Logo" />
+      </div>
+      <div class="address">
+        <!-- Contact Details -->
+        <p>
+          <i class="fa-solid fa-location-dot"></i> Bio Care, Kotulpur Netaji
+          More (near Kotulpur Police Station) Kotulpur, Bankura, WB-722141
+        </p>
+
+        <p><i class="fa-solid fa-phone"></i> +91 84366 51955 +91 89182 92956</p>
+        <p><i class="fa-solid fa-envelope"></i> biocare545@gmail.com</p>
+
+        <div class="links">
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-square-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-telegram"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <p>Made with <i class="fa-solid fa-heart"></i> by Abhijit Das</p>
+    </footer>
+    <button id="backToTop" aria-label="Back to Top">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script src="login-logout.js"></script>
+    <script src="script.js"></script>
+    <script src="checkLogin.js"></script>
+  </body>
+</html>

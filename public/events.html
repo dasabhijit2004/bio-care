@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events - Bio Care</title>
+    <link rel="stylesheet" href="events.css" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <script
+      src="https://kit.fontawesome.com/d8373423c5.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- Overlay for login/signup prompt -->
+    <div id="overlay" class="overlay">
+      <div class="overlay-content">
+        <h2>Please log in or sign up to view events</h2>
+        <a href="login.html"><button>Log In</button></a>
+        <a href="signup.html"><button>Sign Up</button></a>
+      </div>
+    </div>
+    <nav>
+      <a href="#" aria-label="Home">
+        <img src="images/logo.png" class="logo" alt="Bio Care Logo" />
+      </a>
+      <ul>
+        <div class="links">
+          <a href="index.html"><li>Home</li></a>
+          <a href="about.html"><li>About</li></a>
+          <a href="course.html"><li>Courses</li></a>
+          <a href="gallery.html"><li>Gallery</li></a>
+          <a href="events.html"><li>Events</li></a>
+          <a href="contact.html"><li>Contact Us</li></a>
+        </div>
+        <div class="btn">
+          <a href="signup.html"
+            ><button id="signupButton" aria-label="Sign Up">Sign Up</button></a
+          >
+          <a href="login.html"
+            ><button id="loginButton" aria-label="Log In">Log In</button></a
+          >
+        </div>
+      </ul>
+      <button class="toggle"><i class="fa-solid fa-bars"></i></button>
+    </nav>
+
+    <div class="events">
+        <h1>moments we create to love</h1>
+        <div class="event event1">
+          <img src="eventimg/image1.png">
+          <div class="details">
+            <h3 class="name">Raksha Bandhan</h3>
+            <p class="desc">Raksha Bandhan is a celebration of the beautiful bond between siblings. It symbolizes love, protection, and mutual respect. Sisters tie a sacred thread called Rakhi on their brothers’ wrists, wishing them happiness and prosperity. In return, brothers vow to protect their sisters and often give thoughtful gifts as a token of love. The festival fosters unity, strengthening family relationships. It’s a time of joy, laughter, and togetherness, celebrated with delicious sweets, shared memories, and warm smiles. This day transcends biological ties, as Rakhi is also exchanged among close friends and relatives, making it a universal celebration of love.</p>
+          </div>
+        </div>
+        <div class="event event2">
+          <div class="details">
+            <h3 class="name">Prize Distribution</h3>
+            <p class="desc">Prize Distribution ceremonies are special moments of recognition and celebration. They highlight the achievements of students, staff, or participants, acknowledging their hard work, talent, and perseverance. These events inspire a sense of pride and accomplishment, motivating others to strive for excellence. Whether it’s academics, sports, or cultural achievements, every award celebrates dedication and effort. Such occasions foster a spirit of healthy competition and teamwork, nurturing personal and collective growth. With an air of excitement and applause resonating through the venue, prize distribution events leave an indelible mark on participants, reinforcing the importance of hard work and determination.</p>
+          </div>
+          <img src="eventimg/image2.png">
+        </div>
+        <div class="event event3">
+          <img src="eventimg/image3.jpg">
+          <div class="details">
+            <h3 class="name">Annual Function</h3>
+            <p class="desc">The Annual Function is a grand celebration, showcasing the talents and creativity of individuals within an institution. It brings together students, teachers, and families for a night of cultural performances, speeches, and awards. Dances, skits, music, and art take center stage, reflecting themes of tradition and innovation. It’s a time to honor milestones and achievements while fostering unity and enthusiasm. These functions provide a platform for showcasing diverse skills, boosting confidence, and creating cherished memories. The day often concludes with shared laughter, photographs, and a renewed sense of community spirit, making it one of the most anticipated events of the year.</p>
+          </div>
+        </div>
+    </div>
+
+    <div class="contact">
+      <div class="left">
+        <img src="images/logo.png" alt="Bio Care Logo" />
+      </div>
+      <div class="address">
+        <!-- Contact Details -->
+        <p>
+          <i class="fa-solid fa-location-dot"></i> Bio Care, Kotulpur Netaji
+          More (near Kotulpur Police Station) Kotulpur, Bankura, WB-722141
+        </p>
+
+        <p><i class="fa-solid fa-phone"></i> +91 84366 51955 +91 89182 92956</p>
+        <p><i class="fa-solid fa-envelope"></i> biocare545@gmail.com</p>
+
+        <div class="links">
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-square-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-telegram"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <p>Made with <i class="fa-solid fa-heart"></i> by Abhijit Das</p>
+    </footer>
+    <button id="backToTop" aria-label="Back to Top">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script src="login-logout.js"></script>
+    <script src="script.js"></script>
+    <script src="checkLogin.js"></script>
+  </body>
+</html>

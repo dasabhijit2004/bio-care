@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Courses - Bio Care</title>
+    <link rel="stylesheet" href="course.css" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <script
+      src="https://kit.fontawesome.com/d8373423c5.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- Overlay for login/signup prompt -->
+    <div id="overlay" class="overlay">
+      <div class="overlay-content">
+        <h2>Please log in or sign up to view courses</h2>
+        <a href="login.html"><button>Log In</button></a>
+        <a href="signup.html"><button>Sign Up</button></a>
+      </div>
+    </div>
+    <nav>
+      <a href="#" aria-label="Home">
+        <img src="images/logo.png" class="logo" alt="Bio Care Logo" />
+      </a>
+      <ul>
+        <div class="links">
+          <a href="index.html"><li>Home</li></a>
+          <a href="about.html"><li>About</li></a>
+          <a href="course.html"><li>Courses</li></a>
+          <a href="gallery.html"><li>Gallery</li></a>
+          <a href="events.html"><li>Events</li></a>
+          <a href="contact.html"><li>Contact Us</li></a>
+        </div>
+        <div class="btn">
+          <a href="signup.html"
+            ><button id="signupButton" aria-label="Sign Up">Sign Up</button></a
+          >
+          <a href="login.html"
+            ><button id="loginButton" aria-label="Log In">Log In</button></a
+          >
+        </div>
+      </ul>
+      <button class="toggle"><i class="fa-solid fa-bars"></i></button>
+    </nav>
+
+    <div class="courses">
+      <h1>Courses</h1>
+      <div class="content">
+        <div class="left">
+          <a href="https://drive.google.com/drive/folders/1Gdnetwk3m4EVyYkCg7fpcJb6LaOs9pQs?usp=drive_link" target="_blank">
+            <button>
+              <p>Class - viii</p>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </a>
+          <a href="https://drive.google.com/drive/folders/1McSdMDEfndBMfLZk-nhITBJwfL179-97?usp=drive_link" target="_blank">
+            <button>
+              <p>Class - iX</p>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </a>
+        </div>
+        <div class="right">
+          <a href="https://drive.google.com/drive/folders/1et0iZQOdVObNlhLg3oW6uwPebhc_JLKb?usp=drive_link" target="_blank">
+            <button>
+              <p>Class - X</p>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </a>
+          <a href="https://drive.google.com/drive/folders/1-1P35MFOsDp4GDZXrb0Jic_RNitkEqFs?usp=drive_link" target="_blank">
+            <button>
+              <p>Class - XI</p>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </a>
+        </div>
+        <div class="right">
+          <a href="https://drive.google.com/drive/folders/1RRz815skHpK1ZrjwL9p_kmqRlvAcf8t5?usp=drive_link" target="_blank">
+            <button>
+              <p>Class - XII</p>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </a>
+          <a href="https://drive.google.com/drive/folders/1ycMG-rJL4WyZ49bRu-Gi7CgO82DLtsm8?usp=drive_link" target="_blank">
+            <button>
+              <p>Nutrition</p>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact">
+      <div class="left">
+        <img src="images/logo.png" alt="Bio Care Logo" />
+      </div>
+      <div class="address">
+        <!-- Contact Details -->
+        <p>
+          <i class="fa-solid fa-location-dot"></i> Bio Care, Kotulpur Netaji
+          More (near Kotulpur Police Station) Kotulpur, Bankura, WB-722141
+        </p>
+
+        <p><i class="fa-solid fa-phone"></i> +91 84366 51955 +91 89182 92956</p>
+        <p><i class="fa-solid fa-envelope"></i> biocare545@gmail.com</p>
+
+        <div class="links">
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-square-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-telegram"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <p>Made with <i class="fa-solid fa-heart"></i> by Abhijit Das</p>
+    </footer>
+    <button id="backToTop" aria-label="Back to Top">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+    <script src="login-logout.js"></script>
+    <script src="checkLogin.js"></script>
+  </body>
+</html>

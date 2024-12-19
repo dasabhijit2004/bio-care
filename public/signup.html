@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up to Bio Care</title>
+    <link rel="stylesheet" href="signup.css" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="content">
+      <div class="left">
+        <h1>Sign Up</h1>
+        <form id="signupForm"> <!-- Use id to select the form for JS -->
+          <div class="inputfield">
+            <input type="text" id="name" name="fullName" required />
+            <span>Full Name</span>
+          </div>
+          <div class="inputfield">
+            <input type="text" id="username" name="username" required />
+            <span>Username</span>
+          </div>
+          <div class="inputfield">
+            <input type="password" id="password" name="password" required />
+            <span>Password</span>
+          </div>
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
+      <div class="right">
+        <h1>Already Have an Account?</h1>
+        <a href="login.html"><button>Log In</button></a>
+      </div>
+    </div>
+
+    <script>
+      // Handle form submission for signup
+      document.getElementById("signupForm").addEventListener("submit", async function (e) {
+        e.preventDefault(); // Prevent traditional form submission
+
+        // Collect the form data
+        const name = document.getElementById("name").value;
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if (!name || !username || !password) {
+          alert("All fields are required!");
+          return;
+        }
+
+        // Send data to the backend
+        try {
+          const response = await fetch("http://localhost:5000/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, username, password }),
+          });
+
+          const message = await response.text();
+
+          // Show message in a popup
+          alert(message);
+
+          if (response.ok) {
+            // Save login status in localStorage
+            localStorage.setItem("loggedIn", "true");
+
+            // Redirect to index.html (home page)
+            window.location.href = "index.html";
+          }
+        } catch (err) {
+          alert("An error occurred: " + err.message);
+        }
+      });
+    </script>
+  </body>
+</html>
