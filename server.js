@@ -7,20 +7,11 @@ const fs = require("fs");
 const bcrypt = require("bcryptjs");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
-
+const validator = require("validator"); // For email validation
 
 // Initialize Express App
 const app = express();
-
 const cors = require('cors');
-
-// Alternatively, allow only specific domains:
-app.use(cors({
-  origin: 'https://bio-care-one.vercel.app', // Replace with your frontend URL
-  methods: ['GET', 'POST'], // Add other methods as needed
-  credentials: true, // Allow cookies, authorization headers, etc.
-}));
-
 
 // Load environment variables
 dotenv.config();
@@ -30,8 +21,9 @@ const MONGO_URI = process.env.MONGO_URI;
 const EMAIL_USER = process.env.EMAIL_USER;
 const EMAIL_PASS = process.env.EMAIL_PASS;
 const PORT = process.env.PORT || 5000;
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS;
 
-if (!MONGO_URI || !EMAIL_USER || !EMAIL_PASS) {
+if (!MONGO_URI || !EMAIL_USER || !EMAIL_PASS || !ALLOWED_ORIGINS) {
   console.error("Missing environment variables!");
   process.exit(1);
 }
@@ -42,18 +34,31 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+// CORS Setup
+const allowedOrigins = ALLOWED_ORIGINS.split(",");
+app.use(cors({
+  origin: allowedOrigins, // Allows multiple domains dynamically
+  methods: ['GET', 'POST'],
+  credentials: true, // Allow cookies, authorization headers, etc.
+}));
+
 // Rate Limiter
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests
+  message: "Too many requests, please try again later.",
 });
 app.use(limiter);
 
 // Connect to MongoDB
-mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Error connecting to MongoDB:", err));
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => {
+  console.log("Connected to MongoDB");
+}).catch((err) => {
+  console.error("MongoDB connection error:", err);
+});
 
 mongoose.connection.on("connected", () => {
   console.log("Mongoose connected to the database");
@@ -67,10 +72,12 @@ mongoose.connection.on("disconnected", () => {
 
 // Define Schemas
 const UserSchema = new mongoose.Schema({
-  name: String,
-  username: String,
-  password: String,
+  name: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
 });
+
+UserSchema.index({ username: 1 }, { unique: true }); // Index for unique username
 const User = mongoose.model("User", UserSchema);
 
 // Utility Function: Save User to Excel
@@ -78,24 +85,28 @@ const saveUserToExcel = (name, username, password) => {
   const filePath = "./user_data.xlsx";
   let workbook;
 
-  if (fs.existsSync(filePath)) {
-    workbook = xlsx.readFile(filePath);
-  } else {
-    workbook = xlsx.utils.book_new();
+  try {
+    if (fs.existsSync(filePath)) {
+      workbook = xlsx.readFile(filePath);
+    } else {
+      workbook = xlsx.utils.book_new();
+    }
+
+    const sheetName = "Users";
+    let worksheet = workbook.Sheets[sheetName];
+
+    if (!worksheet) {
+      worksheet = xlsx.utils.aoa_to_sheet([["Name", "Username", "Password"]]);
+      xlsx.utils.book_append_sheet(workbook, worksheet, sheetName);
+    }
+
+    const newRow = [name, username, password];
+    xlsx.utils.sheet_add_aoa(worksheet, [newRow], { origin: -1 });
+
+    xlsx.writeFile(workbook, filePath);
+  } catch (err) {
+    console.error("Error saving user to Excel:", err);
   }
-
-  const sheetName = "Users";
-  let worksheet = workbook.Sheets[sheetName];
-
-  if (!worksheet) {
-    worksheet = xlsx.utils.aoa_to_sheet([["Name", "Username", "Password"]]);
-    xlsx.utils.book_append_sheet(workbook, worksheet, sheetName);
-  }
-
-  const newRow = [name, username, password];
-  xlsx.utils.sheet_add_aoa(worksheet, [newRow], { origin: -1 });
-
-  xlsx.writeFile(workbook, filePath);
 };
 
 // Root Route
@@ -168,6 +179,11 @@ app.post("/query", async (req, res) => {
     return res.status(400).send("All fields are required!");
   }
 
+  // Validate email format
+  if (!validator.isEmail(email)) {
+    return res.status(400).send("Invalid email format!");
+  }
+
   const mailOptions = {
     from: EMAIL_USER,
     to: EMAIL_USER,
@@ -196,6 +212,11 @@ app.post("/feedback", async (req, res) => {
     return res.status(400).send("All fields are required!");
   }
 
+  // Validate email format
+  if (!validator.isEmail(email)) {
+    return res.status(400).send("Invalid email format!");
+  }
+
   const mailOptions = {
     from: EMAIL_USER,
     to: EMAIL_USER,
@@ -216,7 +237,7 @@ app.post("/feedback", async (req, res) => {
   }
 });
 
-// Export all users to Excel
+// Export Users Route
 app.get("/export-users", async (req, res) => {
   try {
     const users = await User.find();
