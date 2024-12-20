@@ -4,10 +4,22 @@ const dotenv = require("dotenv");
 const nodemailer = require("nodemailer");
 const xlsx = require("xlsx"); // For handling Excel files
 const fs = require("fs");
-const cors = require("cors");
 const bcrypt = require("bcrypt");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
+
+const cors = require('cors');
+
+// Enable CORS for all domains (not recommended for production)
+app.use(cors());
+
+// Alternatively, allow only specific domains:
+app.use(cors({
+  origin: 'https://bio-care-one.vercel.app', // Replace with your frontend URL
+  methods: ['GET', 'POST'], // Add other methods as needed
+  credentials: true, // Allow cookies, authorization headers, etc.
+}));
+
 
 // Load environment variables
 dotenv.config();
@@ -27,7 +39,6 @@ if (!MONGO_URI || !EMAIL_USER || !EMAIL_PASS) {
 const app = express();
 
 // Middleware
-app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
