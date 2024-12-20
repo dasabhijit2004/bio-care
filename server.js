@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const nodemailer = require("nodemailer");
 const xlsx = require("xlsx"); // For handling Excel files
 const fs = require("fs");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 
