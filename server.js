@@ -127,7 +127,7 @@ app.post("/signup", async (req, res) => {
 
     return res.status(201).json({ message: "User registered successfully!" });
   } catch (err) {
-    console.error(err); // Log the error for debugging
+    console.error("Signup error:", err); // Detailed logging for errors
     return res.status(500).json({ message: "Error during signup: " + err.message });
   }
 });
@@ -148,7 +148,7 @@ app.post("/login", async (req, res) => {
 
     return res.json({ success: true, message: "Login successful!" });
   } catch (err) {
-    console.error(err); // Log the error for debugging
+    console.error("Login error:", err); // Detailed logging for errors
     return res.status(500).json({ message: "Error during login: " + err.message });
   }
 });
