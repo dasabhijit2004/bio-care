@@ -8,10 +8,11 @@ const bcrypt = require("bcryptjs");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 
-const cors = require('cors');
 
-// Enable CORS for all domains (not recommended for production)
-app.use(cors());
+// Initialize Express App
+const app = express();
+
+const cors = require('cors');
 
 // Alternatively, allow only specific domains:
 app.use(cors({
@@ -34,9 +35,6 @@ if (!MONGO_URI || !EMAIL_USER || !EMAIL_PASS) {
   console.error("Missing environment variables!");
   process.exit(1);
 }
-
-// Initialize Express App
-const app = express();
 
 // Middleware
 app.use(helmet());
