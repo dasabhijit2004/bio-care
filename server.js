@@ -125,10 +125,10 @@ app.post("/signup", async (req, res) => {
 
     saveUserToExcel(name, username, hashedPassword);
 
-    res.status(201).json({ message: "User registered successfully!" });
+    return res.status(201).json({ message: "User registered successfully!" });
   } catch (err) {
-    console.error("Signup Error:", err);  // Log error for debugging
-    res.status(500).json({ message: "Error during signup: " + err.message });
+    console.error(err); // Log the error for debugging
+    return res.status(500).json({ message: "Error during signup: " + err.message });
   }
 });
 
@@ -146,10 +146,10 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials!" });
     }
 
-    res.json({ success: true, message: "Login successful!" });
+    return res.json({ success: true, message: "Login successful!" });
   } catch (err) {
-    console.error("Login Error:", err);  // Log error for debugging
-    res.status(500).json({ message: "Error during login: " + err.message });
+    console.error(err); // Log the error for debugging
+    return res.status(500).json({ message: "Error during login: " + err.message });
   }
 });
 
