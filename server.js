@@ -72,12 +72,17 @@ mongoose.connection.on("disconnected", () => {
 
 // Define Schemas
 const UserSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  name: String,
+  username: { 
+    type: String, 
+    unique: true, // Create a unique index for username
+  },
+  password: String,
 });
 
-UserSchema.index({ username: 1 }, { unique: true }); // Index for unique username
+// Ensure the index is created only once
+UserSchema.index({ username: 1 }, { unique: true });
+
 const User = mongoose.model("User", UserSchema);
 
 // Utility Function: Save User to Excel
