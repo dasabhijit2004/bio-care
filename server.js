@@ -80,9 +80,6 @@ const UserSchema = new mongoose.Schema({
   password: String,
 });
 
-// Ensure the index is created only once
-UserSchema.index({ username: 1 }, { unique: true });
-
 const User = mongoose.model("User", UserSchema);
 
 // Utility Function: Save User to Excel
