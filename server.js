@@ -99,45 +99,54 @@ app.post("/signup", async (req, res) => {
   const { name, username, password } = req.body;
 
   if (!name || !username || !password) {
-    return res.status(400).json({ message: "All fields are required!" });  // Ensure JSON response
+    return res.status(400).json({ success: false, message: "All fields are required!" });  // Ensure JSON response
   }
 
   try {
+    // Check if the username already exists
     const userExists = await User.findOne({ username });
     if (userExists) {
-      return res.status(400).json({ message: "Username already exists!" }); // Ensure JSON response
+      return res.status(400).json({ success: false, message: "Username already exists!" });  // Ensure JSON response
     }
 
+    // Hash the password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ name, username, password: hashedPassword });
+
+    // Save the new user to the database
     await newUser.save();
 
+    // Optionally save user data to an Excel file
     saveUserToExcel(name, username, hashedPassword);
 
-    res.status(201).json({ message: "User registered successfully!" }); // Ensure JSON response
+    // Respond with a success message
+    res.status(201).json({ success: true, message: "User registered successfully!" }); // Ensure JSON response
   } catch (err) {
-    res.status(500).json({ message: "Error during signup: " + err.message }); // Ensure JSON response
+    // Handle any errors that occur during the signup process
+    res.status(500).json({ success: false, message: "Error during signup: " + err.message }); // Ensure JSON response
   }
 });
-
 
 // Login Route
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).json({ message: "All fields are required!" }); // Ensure JSON response
+    return res.status(400).json({ success: false, message: "All fields are required!" }); // Ensure JSON response
   }
 
   try {
+    // Check if the user exists
     const user = await User.findOne({ username });
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ message: "Invalid credentials!" }); // Ensure JSON response
+      return res.status(401).json({ success: false, message: "Invalid credentials!" }); // Ensure JSON response
     }
 
+    // Respond with a success message if login is successful
     res.json({ success: true, message: "Login successful!" }); // Ensure JSON response
   } catch (err) {
-    res.status(500).json({ message: "Error during login: " + err.message }); // Ensure JSON response
+    // Handle any errors that occur during the login process
+    res.status(500).json({ success: false, message: "Error during login: " + err.message }); // Ensure JSON response
   }
 });
 
