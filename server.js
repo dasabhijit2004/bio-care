@@ -68,12 +68,18 @@ app.use(limiter);
 // });
 
 const dbconnect = async () => {
-  await connect('<MongoDB_URI>');
-  console.log("Connected to Database");
-}
+  try {
+    const connection = await mongoose.createConnection(MONGO_URI).asPromise();
+    console.log("Connected to Database");
+    return connection; // Return connection if needed
+  } catch (err) {
+    console.error("Error connecting to Database:", err);
+    throw err;
+  }
+};
 
-dbconnect()
-  .catch((err) => console.error(err))
+dbconnect().catch((err) => console.error(err));
+
 
 mongoose.connection.on("connected", () => {
   console.log("Mongoose connected to the database");
