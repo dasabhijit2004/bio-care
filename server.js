@@ -37,10 +37,17 @@ app.use(express.static("public"));
 // CORS Setup
 const allowedOrigins = ALLOWED_ORIGINS.split(",");
 app.use(cors({
-  origin: allowedOrigins, // Allows multiple domains dynamically
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ['GET', 'POST'],
-  credentials: true, // Allow cookies, authorization headers, etc.
+  credentials: true,
 }));
+
 
 // Rate Limiter
 const limiter = rateLimit({
@@ -50,31 +57,15 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// Connect to MongoDB
-// mongoose.connect(MONGO_URI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// }).then(() => {
-//   console.log("Connected to MongoDB");
-// }).catch((err) => {
-//   console.error("MongoDB connection error:", err);
-// });
-
-// const run = async () => {
-//   await connect("mongodb://127.0.0.1:27017/myDB");
-//   console.log("Connected to myDB");
-// }
-
-// run()
-// .catch((err) => console.error(err))
-
-mongoose.connect(
-  process.env.MONGO_URL,
-  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
-  () => {
-    console.log('Connected to MongoDB');
-  }
-);
+Connect to MongoDB
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => {
+  console.log("Connected to MongoDB");
+}).catch((err) => {
+  console.error("MongoDB connection error:", err);
+});
 
 mongoose.connection.on("connected", () => {
   console.log("Mongoose connected to the database");
