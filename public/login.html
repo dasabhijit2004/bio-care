@@ -17,8 +17,8 @@
         <h1>Log In</h1>
         <form id="loginForm">
           <div class="inputfield">
-            <input type="text" id="username" name="username" required />
-            <span>Username</span>
+            <input type="text" id="mobile" name="mobile" required />
+            <span>Mobile Number</span>
           </div>
           <div class="inputfield">
             <input type="password" id="password" name="password" required />
@@ -36,10 +36,10 @@
           e.preventDefault(); // Prevent traditional form submission
 
           // Collect the form data
-          const username = document.getElementById("username").value;
+          const mobile = document.getElementById("mobile").value;
           const password = document.getElementById("password").value;
 
-          if (!username || !password) {
+          if (!mobile || !password) {
             alert("All fields are required!");
             return;
           }
@@ -51,7 +51,7 @@
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ mobile, password }),
               }
             );
 

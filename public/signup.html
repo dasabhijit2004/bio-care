@@ -12,14 +12,13 @@
       <div class="left">
         <h1>Sign Up</h1>
         <form id="signupForm">
-          <!-- Use id to select the form for JS -->
           <div class="inputfield">
             <input type="text" id="name" name="fullName" required />
             <span>Full Name</span>
           </div>
           <div class="inputfield">
-            <input type="text" id="username" name="username" required />
-            <span>Username</span>
+            <input type="text" id="mobile" name="mobile" required />
+            <span>Mobile Number</span>
           </div>
           <div class="inputfield">
             <input type="password" id="password" name="password" required />
@@ -42,10 +41,10 @@
 
           // Collect the form data
           const name = document.getElementById("name").value;
-          const username = document.getElementById("username").value;
+          const mobile = document.getElementById("mobile").value;
           const password = document.getElementById("password").value;
 
-          if (!name || !username || !password) {
+          if (!name || !mobile || !password) {
             alert("All fields are required!");
             return;
           }
@@ -57,7 +56,7 @@
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, username, password }),
+                body: JSON.stringify({ name, mobile, password }),
               }
             );
 

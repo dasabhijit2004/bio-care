@@ -73,9 +73,9 @@ mongoose.connection.on("disconnected", () => {
 // Define Schemas
 const UserSchema = new mongoose.Schema({
   name: String,
-  username: { 
+  mobile: { 
     type: String, 
-    unique: true, // Create a unique index for username
+    unique: true, // Create a unique index for mobile
   },
   password: String,
 });
@@ -83,7 +83,7 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model("User", UserSchema);
 
 // Utility Function: Save User to Excel
-const saveUserToExcel = (name, username, password) => {
+const saveUserToExcel = (name, mobile, password) => {
   const filePath = "./user_data.xlsx";
   let workbook;
 
@@ -98,11 +98,11 @@ const saveUserToExcel = (name, username, password) => {
     let worksheet = workbook.Sheets[sheetName];
 
     if (!worksheet) {
-      worksheet = xlsx.utils.aoa_to_sheet([["Name", "Username", "Password"]]);
+      worksheet = xlsx.utils.aoa_to_sheet([["Name", "Mobile", "Password"]]);
       xlsx.utils.book_append_sheet(workbook, worksheet, sheetName);
     }
 
-    const newRow = [name, username, password];
+    const newRow = [name, mobile, password];
     xlsx.utils.sheet_add_aoa(worksheet, [newRow], { origin: -1 });
 
     xlsx.writeFile(workbook, filePath);
@@ -118,23 +118,23 @@ app.get("/", (req, res) => {
 
 // Signup Route
 app.post("/signup", async (req, res) => {
-  const { name, username, password } = req.body;
+  const { name, mobile, password } = req.body;
 
-  if (!name || !username || !password) {
+  if (!name || !mobile || !password) {
     return res.status(400).json({ message: "All fields are required!" });
   }
 
   try {
-    const userExists = await User.findOne({ username });
+    const userExists = await User.findOne({ mobile });
     if (userExists) {
-      return res.status(400).json({ message: "Username already exists!" });
+      return res.status(400).json({ message: "Mobile number already exists!" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, username, password: hashedPassword });
+    const newUser = new User({ name, mobile, password: hashedPassword });
     await newUser.save();
 
-    saveUserToExcel(name, username, hashedPassword);
+    saveUserToExcel(name, mobile, hashedPassword);
 
     return res.status(201).json({ message: "User registered successfully!" });
   } catch (err) {
@@ -145,14 +145,14 @@ app.post("/signup", async (req, res) => {
 
 // Login Route
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { mobile, password } = req.body;
 
-  if (!username || !password) {
+  if (!mobile || !password) {
     return res.status(400).json({ message: "All fields are required!" });
   }
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ mobile });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid credentials!" });
     }
@@ -247,7 +247,7 @@ app.get("/export-users", async (req, res) => {
     const worksheet = xlsx.utils.json_to_sheet(
       users.map((user) => ({
         Name: user.name,
-        Username: user.username,
+        Mobile: user.mobile,
       }))
     );
 
