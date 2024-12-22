@@ -94,8 +94,8 @@ mongoose.connection.on("disconnected", () => {
 // Define Schemas
 const UserSchema = new mongoose.Schema({
   name: String,
-  mobile: { 
-    type: String, 
+  mobile: {
+    type: String,
     unique: true, // Create a unique index for mobile
   },
   password: String,
