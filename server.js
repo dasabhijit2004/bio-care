@@ -60,13 +60,21 @@ app.use(limiter);
 //   console.error("MongoDB connection error:", err);
 // });
 
-const run = async () => {
-  await connect("mongodb://127.0.0.1:27017/myDB");
-  console.log("Connected to myDB");
-}
+// const run = async () => {
+//   await connect("mongodb://127.0.0.1:27017/myDB");
+//   console.log("Connected to myDB");
+// }
 
-run()
-.catch((err) => console.error(err))
+// run()
+// .catch((err) => console.error(err))
+
+mongoose.connect(
+  process.env.MONGO_URL,
+  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
+  () => {
+    console.log('Connected to MongoDB');
+  }
+);
 
 mongoose.connection.on("connected", () => {
   console.log("Mongoose connected to the database");
