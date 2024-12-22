@@ -81,6 +81,8 @@ const UserSchema = new mongoose.Schema({
   password: String,
 });
 
+UserSchema.index({ username: 1 });
+
 const User = mongoose.model("User", UserSchema);
 
 // Utility Function: Save User to Excel
@@ -129,7 +131,7 @@ app.post("/signup", async (req, res) => {
   try {
     // Check if user already exists
     console.log("Checking if user exists...");
-    const userExists = await User.find({ username });
+    const userExists = await User.findOne({ username });
     console.log("User exists check result:", userExists);
 
     // If user exists, return an error
@@ -170,7 +172,7 @@ app.post("/login", async (req, res) => {
   }
 
   try {
-    const user = await User.find({ username });
+    const user = await User.findOne({ username });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid credentials!" });
     }
