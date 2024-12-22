@@ -54,7 +54,6 @@ app.use(limiter);
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 30000,
 }).then(() => {
   console.log("Connected to MongoDB");
 }).catch((err) => {
@@ -80,8 +79,6 @@ const UserSchema = new mongoose.Schema({
   },
   password: String,
 });
-
-UserSchema.index({ username: 1 });
 
 const User = mongoose.model("User", UserSchema);
 
@@ -123,45 +120,28 @@ app.get("/", (req, res) => {
 app.post("/signup", async (req, res) => {
   const { name, username, password } = req.body;
 
-  // Check if all fields are provided
   if (!name || !username || !password) {
     return res.status(400).json({ message: "All fields are required!" });
   }
 
   try {
-    // Check if user already exists
-    console.log("Checking if user exists...");
     const userExists = await User.findOne({ username });
-    console.log("User exists check result:", userExists);
-
-    // If user exists, return an error
-    if (userExists.length > 0) {
+    if (userExists) {
       return res.status(400).json({ message: "Username already exists!" });
     }
 
-    // Hash the password
-    console.log("Hashing password...");
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create new user
-    console.log("Creating new user...");
     const newUser = new User({ name, username, password: hashedPassword });
     await newUser.save();
 
-    // Optionally, save the user to an Excel file (for reporting, etc.)
-    console.log("Saving user to Excel...");
     saveUserToExcel(name, username, hashedPassword);
 
-    // Respond with success
     return res.status(201).json({ message: "User registered successfully!" });
-
   } catch (err) {
-    // Log detailed error and respond with an internal error
-    console.error("Signup error:", err);  // Log the error for debugging
+    console.error("Signup error:", err); // Detailed logging for errors
     return res.status(500).json({ message: "Error during signup: " + err.message });
   }
 });
-
 
 // Login Route
 app.post("/login", async (req, res) => {
