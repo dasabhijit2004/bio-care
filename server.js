@@ -57,7 +57,7 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-Connect to MongoDB
+//Connect to MongoDB
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
