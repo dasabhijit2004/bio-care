@@ -106,10 +106,6 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", UserSchema);
 
-// Utility: Save User to Excel
-// Utility: Save User to Excel
-const fs = require("fs");
-const xlsx = require("xlsx");
 
 // Utility: Save User to Excel
 const saveUserToExcel = (name, mobile, password) => {
