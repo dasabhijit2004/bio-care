@@ -108,8 +108,18 @@ const User = mongoose.model("User", UserSchema);
 
 // Utility: Save User to Excel
 // Utility: Save User to Excel
+const fs = require("fs");
+const xlsx = require("xlsx");
+
+// Utility: Save User to Excel
 const saveUserToExcel = (name, mobile, password) => {
-  const filePath = "./bio-care.xlsx"; // Change to bio-care.xlsx
+  const directoryPath = "./data";  // Path where the Excel file will be stored
+  const filePath = `${directoryPath}/bio-care.xlsx`;  // Excel file path
+
+  // Check if the directory exists, if not create it
+  if (!fs.existsSync(directoryPath)) {
+    fs.mkdirSync(directoryPath, { recursive: true });  // Create directory if it doesn't exist
+  }
 
   let workbook;
 
@@ -120,7 +130,7 @@ const saveUserToExcel = (name, mobile, password) => {
       workbook = xlsx.utils.book_new(); // Create a new workbook if it doesn't exist
     }
 
-    const sheetName = "Users"; // Specify sheet name
+    const sheetName = "Users"; // Sheet name for storing user data
     let worksheet = workbook.Sheets[sheetName];
 
     // If the worksheet doesn't exist, create it with headers (Name, Mobile)
@@ -135,10 +145,12 @@ const saveUserToExcel = (name, mobile, password) => {
 
     // Write the updated workbook to the file
     xlsx.writeFile(workbook, filePath);
+    console.log("User data saved to Excel!");
   } catch (err) {
     console.error("Error saving user to Excel:", err);
   }
 };
+
 
 // Routes
 app.get("/", (req, res) => {
