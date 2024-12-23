@@ -107,28 +107,33 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model("User", UserSchema);
 
 // Utility: Save User to Excel
+// Utility: Save User to Excel
 const saveUserToExcel = (name, mobile, password) => {
-  const filePath = "./user_data.xlsx";
+  const filePath = "./bio-care.xlsx"; // Change to bio-care.xlsx
+
   let workbook;
 
   try {
     if (fs.existsSync(filePath)) {
-      workbook = xlsx.readFile(filePath);
+      workbook = xlsx.readFile(filePath); // Open the existing file if it exists
     } else {
-      workbook = xlsx.utils.book_new();
+      workbook = xlsx.utils.book_new(); // Create a new workbook if it doesn't exist
     }
 
-    const sheetName = "Users";
+    const sheetName = "Users"; // Specify sheet name
     let worksheet = workbook.Sheets[sheetName];
 
+    // If the worksheet doesn't exist, create it with headers (Name, Mobile)
     if (!worksheet) {
-      worksheet = xlsx.utils.aoa_to_sheet([["Name", "Mobile", "Password"]]);
+      worksheet = xlsx.utils.aoa_to_sheet([["Name", "Mobile"]]); // Exclude Password column for security
       xlsx.utils.book_append_sheet(workbook, worksheet, sheetName);
     }
 
-    const newRow = [name, mobile, password];
+    // Add the new user's data (Name, Mobile) excluding Password for security reasons
+    const newRow = [name, mobile];
     xlsx.utils.sheet_add_aoa(worksheet, [newRow], { origin: -1 });
 
+    // Write the updated workbook to the file
     xlsx.writeFile(workbook, filePath);
   } catch (err) {
     console.error("Error saving user to Excel:", err);
@@ -255,29 +260,44 @@ app.post("/feedback", async (req, res) => {
     res.status(500).send("Error sending feedback: " + err.message);
   }
 });
+
 // Export Users Route
 app.get("/export-users", async (req, res) => {
   try {
-    const users = await User.find();
-    const worksheet = xlsx.utils.json_to_sheet(
-      users.map((user) => ({
-        Name: user.name,
-        Mobile: user.mobile,
-      }))
-    );
+    const users = await User.find(); // Fetch all users from MongoDB
+
+    // Map the users data to a format suitable for the Excel sheet
+    const userData = users.map((user) => ({
+      Name: user.name,
+      Mobile: user.mobile,
+      // Excluding Password for security reasons
+    }));
+
+    // Create a worksheet from the user data
+    const worksheet = xlsx.utils.json_to_sheet(userData);
+
+    // Create a new workbook and append the worksheet to it
     const workbook = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(workbook, worksheet, "Users");
+
+    // Write the Excel file to a buffer
     const excelFile = xlsx.write(workbook, { bookType: "xlsx", type: "buffer" });
-    res.setHeader("Content-Disposition", "attachment; filename=users.xlsx");
+
+    // Set the headers for the response to force download
+    res.setHeader("Content-Disposition", "attachment; filename=bio-care.xlsx");
     res.setHeader(
       "Content-Type",
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     );
+
+    // Send the file to the client
     res.send(excelFile);
   } catch (err) {
+    console.error("Error exporting users to Excel:", err);
     res.status(500).send("Error exporting users to Excel: " + err.message);
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running on http://127.0.0.1:${PORT}`);
