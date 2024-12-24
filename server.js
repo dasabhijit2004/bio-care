@@ -290,21 +290,15 @@ app.get("/export-users", async (req, res) => {
     const workbook = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(workbook, worksheet, "Users");
 
-    // Set file path if you want to save on the server
-    const filePath = "./data/users.xlsx";
-
-    // Write the Excel file to the specified path
-    xlsx.writeFile(workbook, filePath);
+    // Generate the Excel file as a buffer (in-memory)
+    const excelFile = xlsx.write(workbook, { bookType: "xlsx", type: "buffer" });
 
     // Set headers to prompt the download of the file
-    res.download(filePath, "users.xlsx", (err) => {
-      if (err) {
-        console.error("Error sending the file:", err);
-        res.status(500).send("Error exporting users to Excel: " + err.message);
-      } else {
-        console.log("File sent successfully!");
-      }
-    });
+    res.setHeader("Content-Disposition", "attachment; filename=users.xlsx");
+    res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+    // Send the in-memory Excel file as a download
+    res.send(excelFile);
   } catch (err) {
     console.error("Error exporting users to Excel:", err);
     res.status(500).send("Error exporting users to Excel: " + err.message);
