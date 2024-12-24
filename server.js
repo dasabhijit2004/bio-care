@@ -270,9 +270,11 @@ app.post("/feedback", async (req, res) => {
 });
 
 // Export Users Route
+// Export Users Route
 app.get("/export-users", async (req, res) => {
   try {
-    const users = await User.find(); // Fetch all users from MongoDB
+    // Fetch all users from MongoDB
+    const users = await User.find();
 
     // Map the users data to a format suitable for the Excel sheet
     const userData = users.map((user) => ({
@@ -288,23 +290,27 @@ app.get("/export-users", async (req, res) => {
     const workbook = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(workbook, worksheet, "Users");
 
-    // Write the Excel file to a buffer
-    const excelFile = xlsx.write(workbook, { bookType: "xlsx", type: "buffer" });
+    // Set file path if you want to save on the server
+    const filePath = "./data/users.xlsx";
 
-    // Set the headers for the response to force download
-    res.setHeader("Content-Disposition", "attachment; filename=bio-care.xlsx");
-    res.setHeader(
-      "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    );
+    // Write the Excel file to the specified path
+    xlsx.writeFile(workbook, filePath);
 
-    // Send the file to the client
-    res.send(excelFile);
+    // Set headers to prompt the download of the file
+    res.download(filePath, "users.xlsx", (err) => {
+      if (err) {
+        console.error("Error sending the file:", err);
+        res.status(500).send("Error exporting users to Excel: " + err.message);
+      } else {
+        console.log("File sent successfully!");
+      }
+    });
   } catch (err) {
     console.error("Error exporting users to Excel:", err);
     res.status(500).send("Error exporting users to Excel: " + err.message);
   }
 });
+
 
 
 app.listen(PORT, () => {
